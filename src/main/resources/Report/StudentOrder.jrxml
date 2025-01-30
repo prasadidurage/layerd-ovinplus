@@ -1,0 +1,147 @@
+<!-- Created with Jaspersoft Studio version 7.0.0.final using JasperReports Library version 7.0.0-b478feaa9aab4375eba71de77b4ca138ad2f62aa  -->
+<jasperReport name="StudentOrder" language="java" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="3f6a0aeb-4895-4fdd-8942-dac19b9473ec">
+	<property name="com.jaspersoft.studio.data.sql.tables" value=""/>
+	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="OvinplusDBConnection"/>
+	<parameter name="Date" class="java.lang.String"/>
+	<query language="SQL"><![CDATA[SELECT 
+    Student.StudentId,
+    Student.StudentName,
+    Batch.BatchName,
+    Tute.tuteName,
+    Payment.Date AS PaymentDate,
+    Payment.Amount
+FROM 
+    Student
+JOIN 
+    Batch ON Student.BatchId = Batch.BatchId
+JOIN 
+    Orders ON Student.StudentId = Orders.StudentId
+JOIN 
+    orderDetail ON Orders.orderId = orderDetail.orderId
+JOIN 
+    Tute ON orderDetail.tuteId = Tute.tuteId
+JOIN 
+    Delivery ON Orders.orderId = Delivery.orderId
+JOIN 
+    Payment ON Delivery.DeliveryId = Payment.DeliveryId]]></query>
+	<field name="StudentId" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.name" value="StudentId"/>
+		<property name="com.jaspersoft.studio.field.label" value="StudentId"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="Student"/>
+	</field>
+	<field name="StudentName" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.name" value="StudentName"/>
+		<property name="com.jaspersoft.studio.field.label" value="StudentName"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="Student"/>
+	</field>
+	<field name="BatchName" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.name" value="BatchName"/>
+		<property name="com.jaspersoft.studio.field.label" value="BatchName"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="Batch"/>
+	</field>
+	<field name="tuteName" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.name" value="tuteName"/>
+		<property name="com.jaspersoft.studio.field.label" value="tuteName"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="Tute"/>
+	</field>
+	<field name="PaymentDate" class="java.sql.Date">
+		<property name="com.jaspersoft.studio.field.name" value="Date"/>
+		<property name="com.jaspersoft.studio.field.label" value="PaymentDate"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="Payment"/>
+	</field>
+	<field name="Amount" class="java.math.BigDecimal">
+		<property name="com.jaspersoft.studio.field.name" value="Amount"/>
+		<property name="com.jaspersoft.studio.field.label" value="Amount"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="Payment"/>
+	</field>
+	<group name="StudentId">
+		<expression><![CDATA[$F{StudentId}]]></expression>
+	</group>
+	<group name="StudentName">
+		<expression><![CDATA[$F{StudentName}]]></expression>
+	</group>
+	<group name="BatchName">
+		<expression><![CDATA[$F{BatchName}]]></expression>
+	</group>
+	<group name="tuteName">
+		<expression><![CDATA[$F{tuteName}]]></expression>
+	</group>
+	<group name="PaymentDate">
+		<expression><![CDATA[$F{PaymentDate}]]></expression>
+	</group>
+	<group name="Amount">
+		<expression><![CDATA[$F{Amount}]]></expression>
+	</group>
+	<background splitType="Stretch"/>
+	<title height="60" splitType="Stretch">
+		<element kind="staticText" uuid="b0220a85-6288-48a2-9f1f-e376ab1c5495" x="-20" y="0" width="590" height="60" fontName="DejaVu Sans Mono" fontSize="25.0" hTextAlign="Center" vTextAlign="Middle">
+			<text><![CDATA[Tute Order Detail]]></text>
+		</element>
+	</title>
+	<pageHeader height="50">
+		<element kind="textField" uuid="7cb62eb6-cd90-4fe3-b9a7-9a522e6d42e0" x="0" y="10" width="140" height="40">
+			<expression><![CDATA[$P{Date}]]></expression>
+		</element>
+	</pageHeader>
+	<columnHeader height="61" splitType="Stretch">
+		<element kind="staticText" uuid="3898340d-ca60-486a-957c-68bf307316a1" x="0" y="30" width="95" height="31" fontSize="12.0" bold="false" hTextAlign="Center" vTextAlign="Middle">
+			<text><![CDATA[StudentId]]></text>
+			<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="3e0dff1e-4773-4280-8031-d1d66ae405af"/>
+		</element>
+		<element kind="staticText" uuid="1d55fd58-8c5b-4ac8-9382-735594388fb0" x="95" y="30" width="92" height="31" fontSize="12.0" bold="false" hTextAlign="Center" vTextAlign="Middle">
+			<text><![CDATA[StudentName]]></text>
+			<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="f7760300-ce5f-44cd-bd9d-3f5532f49c7c"/>
+		</element>
+		<element kind="staticText" uuid="f2762bdf-116b-4e26-ba17-359867a7a4e2" x="187" y="30" width="92" height="31" fontSize="12.0" bold="false" hTextAlign="Center" vTextAlign="Middle">
+			<text><![CDATA[BatchName]]></text>
+			<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="926e5371-c6ae-4141-b45e-4eeee0c7eb78"/>
+		</element>
+		<element kind="staticText" uuid="90566cdc-e8fa-42a0-81f0-b0385fb27b96" x="280" y="30" width="92" height="31" fontSize="12.0" bold="false" hTextAlign="Center" vTextAlign="Middle">
+			<text><![CDATA[tuteName]]></text>
+			<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="a79759fb-1857-4683-917a-53516c26e6b0"/>
+		</element>
+		<element kind="staticText" uuid="97b3d952-956c-4707-bbab-fda772308087" x="371" y="30" width="92" height="31" fontSize="12.0" bold="false" hTextAlign="Center" vTextAlign="Middle">
+			<text><![CDATA[PaymentDate]]></text>
+			<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="586b2512-2e2e-4a6a-936f-a1ea116c3519"/>
+		</element>
+		<element kind="staticText" uuid="dd1d4d34-7815-4d0b-bd7a-5f44857c957d" x="463" y="30" width="92" height="31" fontSize="12.0" bold="false" hTextAlign="Center" vTextAlign="Middle">
+			<text><![CDATA[Amount]]></text>
+			<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="45582956-0697-49f8-afdc-3b77ad2dec15"/>
+		</element>
+	</columnHeader>
+	<detail>
+		<band height="133" splitType="Stretch">
+			<element kind="textField" uuid="7fbb3513-f4f8-4e55-b472-61f660410c1f" x="0" y="0" width="95" height="50">
+				<expression><![CDATA[$F{StudentId}]]></expression>
+				<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="3e0dff1e-4773-4280-8031-d1d66ae405af"/>
+			</element>
+			<element kind="textField" uuid="ec015a3c-30d6-4d61-a10d-cdebe09e3866" x="95" y="0" width="92" height="50">
+				<expression><![CDATA[$F{StudentName}]]></expression>
+				<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="f7760300-ce5f-44cd-bd9d-3f5532f49c7c"/>
+			</element>
+			<element kind="textField" uuid="36d431b3-ba0e-430b-aa28-65012821236f" x="187" y="0" width="92" height="50">
+				<expression><![CDATA[$F{BatchName}]]></expression>
+				<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="926e5371-c6ae-4141-b45e-4eeee0c7eb78"/>
+			</element>
+			<element kind="textField" uuid="cd0da68a-4b31-4562-b9a3-a772c233d317" x="279" y="0" width="92" height="50">
+				<expression><![CDATA[$F{tuteName}]]></expression>
+				<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="a79759fb-1857-4683-917a-53516c26e6b0"/>
+			</element>
+			<element kind="textField" uuid="be2c143e-7713-47bf-b2ce-d405daa12184" x="371" y="0" width="92" height="50">
+				<expression><![CDATA[$F{PaymentDate}]]></expression>
+				<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="586b2512-2e2e-4a6a-936f-a1ea116c3519"/>
+			</element>
+			<element kind="textField" uuid="ee1aed60-c85c-4d83-9a1d-5e0bcfff7536" x="463" y="0" width="92" height="50">
+				<expression><![CDATA[$F{Amount}]]></expression>
+				<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="45582956-0697-49f8-afdc-3b77ad2dec15"/>
+			</element>
+		</band>
+	</detail>
+	<columnFooter height="45" splitType="Stretch">
+		<element kind="textField" uuid="4565dc6e-41f8-42d6-94ce-21a1cdc32c25" x="-2" y="5" width="100" height="30">
+			<expression><![CDATA[$P{REPORT_MAX_COUNT}]]></expression>
+		</element>
+	</columnFooter>
+	<pageFooter height="54" splitType="Stretch"/>
+	<summary height="42" splitType="Stretch"/>
+</jasperReport>

@@ -10,9 +10,10 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
+import lk.ijse.gdse72.layerdovinplus.bo.BOFactory;
+import lk.ijse.gdse72.layerdovinplus.bo.custom.UserBO;
 import lk.ijse.gdse72.layerdovinplus.dto.UserDTO;
 import lk.ijse.gdse72.layerdovinplus.dto.tm.UserTM;
-import lk.ijse.gdse72.layerdovinplus.model.UserModel;
 
 import java.net.URL;
 import java.sql.SQLException;
@@ -76,8 +77,8 @@ public class UserController implements Initializable {
 
     private Button previousButton = null;
 
-    UserModel userModel = new UserModel();
     private ObservableList<UserTM> userTMS;
+    UserBO userBO = (UserBO) BOFactory.getInstance().getBo(BOFactory.BOType.USER);
 
     @FXML
     void changeButtonColor(ActionEvent event) {
@@ -120,14 +121,16 @@ public class UserController implements Initializable {
 //            lblCustomerId.setText(nextCustomerID);
         } catch (SQLException e) {
             throw new RuntimeException(e);
+        } catch (ClassNotFoundException e) {
+            throw new RuntimeException(e);
         }
         setupBatchSearch();
     }
 
-    private void refreshPage() throws SQLException {
+    private void refreshPage() throws SQLException, ClassNotFoundException {
         refreshTable();
 
-        String nextUserId = userModel.getNextUserId();
+        String nextUserId = userBO.getNextId();
         lblUserId.setText(nextUserId);
 
         txtUserName.setText("");
@@ -140,8 +143,8 @@ public class UserController implements Initializable {
         btnUpdate.setDisable(true);
     }
 
-    private void refreshTable() throws SQLException {
-        ArrayList<UserDTO> userDTOS = userModel.getAllUser();
+    private void refreshTable() throws SQLException, ClassNotFoundException {
+        ArrayList<UserDTO> userDTOS = userBO.getAll();
         ObservableList<UserTM> userTMS = FXCollections.observableArrayList();
 
 
@@ -166,7 +169,7 @@ public class UserController implements Initializable {
             } else {
                 try {
                     refreshTable(); // Show all batches if search is cleared
-                } catch (SQLException e) {
+                } catch (SQLException | ClassNotFoundException e) {
                     throw new RuntimeException(e);
                 }
             }
@@ -176,7 +179,7 @@ public class UserController implements Initializable {
 
     private void searchBatchDetails(String searchTerm) {
         try {
-            ArrayList<UserDTO> searchResults = userModel.searchUser(searchTerm);
+            ArrayList<UserDTO> searchResults = userBO.search(searchTerm);
             userTMS = FXCollections.observableArrayList();
 
             for (UserDTO user : searchResults) {
@@ -191,14 +194,14 @@ public class UserController implements Initializable {
     }
 
     @FXML
-    void btnDeleteOnAction(ActionEvent event) throws SQLException {
+    void btnDeleteOnAction(ActionEvent event) throws SQLException, ClassNotFoundException {
         String userId = lblUserId.getText();
 
         Alert alert = new Alert(Alert.AlertType.CONFIRMATION, "Are you sure you want to delete this User?", ButtonType.YES, ButtonType.NO);
         Optional<ButtonType> buttonType = alert.showAndWait();
         if (buttonType.get() == ButtonType.YES){
 
-            boolean isDeleted = userModel.deleteUser(userId);
+            boolean isDeleted = userBO.delete(userId);
 
             if (isDeleted){
                 new Alert(Alert.AlertType.INFORMATION,"User deleted...!").show();
@@ -211,14 +214,14 @@ public class UserController implements Initializable {
     }
 
     @FXML
-    void btnResetOnAction(ActionEvent event) throws SQLException {
+    void btnResetOnAction(ActionEvent event) throws SQLException, ClassNotFoundException {
         changeButtonColor(event);
         refreshPage();
 
     }
 
     @FXML
-    void btnUpdateOnAction(ActionEvent event) throws SQLException {
+    void btnUpdateOnAction(ActionEvent event) throws SQLException, ClassNotFoundException {
         String id = lblUserId.getText();
         String name = txtUserName.getText();
         String pwd = txtPassword.getText();
@@ -238,7 +241,7 @@ public class UserController implements Initializable {
         UserDTO userDTO = new UserDTO(id, name, pwd, confirmPwd, email);
 
 // Update the user
-        boolean isUpdate = userModel.updateUser(userDTO);
+        boolean isUpdate = userBO.update(userDTO);
 
         if (isUpdate) {
             new Alert(Alert.AlertType.INFORMATION, "User updated successfully!").show();
@@ -270,7 +273,7 @@ public class UserController implements Initializable {
     }
 
     @FXML
-    void saveOnAction(ActionEvent event) throws SQLException {
+    void saveOnAction(ActionEvent event) throws SQLException, ClassNotFoundException {
         String id = lblUserId.getText();
         String name = txtUserName.getText();
         String pwd = txtPassword.getText();
@@ -290,7 +293,7 @@ public class UserController implements Initializable {
         UserDTO userDTO = new UserDTO(id, name, pwd, confirmPwd, email);
 
 // Save the user
-        boolean isSaved = userModel.saveUser(userDTO);
+        boolean isSaved = userBO.save(userDTO);
 
         if (isSaved) {
             new Alert(Alert.AlertType.INFORMATION, "User saved successfully!").show();

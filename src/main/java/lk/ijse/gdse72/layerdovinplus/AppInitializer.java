@@ -11,7 +11,7 @@ import java.io.IOException;
 public class AppInitializer extends Application {
     @Override
     public void start(Stage stage) throws IOException {
-        FXMLLoader fxmlLoader = new FXMLLoader(AppInitializer.class.getResource("/view/UserView.fxml"));
+        FXMLLoader fxmlLoader = new FXMLLoader(AppInitializer.class.getResource("/view/ContactView.fxml"));
         Scene scene = new Scene(fxmlLoader.load());
         Image image = new Image(getClass().getResourceAsStream("/style/login.css"));
 

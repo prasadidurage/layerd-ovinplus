@@ -1,7 +1,7 @@
 package lk.ijse.gdse72.layerdovinplus.bo;
 
-import lk.ijse.gdse72.layerdovinplus.bo.custom.impl.ContactBOImpl;
-import lk.ijse.gdse72.layerdovinplus.bo.custom.impl.UserBOImpl;
+import lk.ijse.gdse72.layerdovinplus.bo.custom.impl.*;
+import lk.ijse.gdse72.layerdovinplus.bo.custom.impl.BatchBOIMpl;
 
 public class BOFactory {
     private static BOFactory boFactory ;
@@ -10,16 +10,22 @@ public class BOFactory {
         return boFactory==null?boFactory=new BOFactory():boFactory;
     }
     public enum BOType {
-        USER,CONTACT
+        USER, BATCH, STUDENT, CONTACT
     }
     public SuperBO getBo(BOType type) {
         switch (type) {
-            case USER:
+                case USER:
                 return new UserBOImpl();
 
-            case CONTACT:
+                case CONTACT:
                 return new ContactBOImpl();
 
+                case BATCH:
+                    return new BatchBOIMpl();
+
+
+                case STUDENT:
+                    return new StudentBOImpl();
                 default:
                     return null;
         }

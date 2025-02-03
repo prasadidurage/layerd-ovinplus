@@ -7,6 +7,10 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 
 public interface ConatctBO extends SuperBO {
-    ArrayList<ContactDTO> search(String searchName, String contactNumber) throws SQLException;
-    boolean delete(String contactId);
+    ArrayList<ContactDTO> search(String searchTerm) throws SQLException;
+    boolean delete(String contactId) throws SQLException;
+    String getNextId() throws SQLException, ClassNotFoundException;
+    ArrayList<ContactDTO> getAll() throws SQLException;
+    boolean save(ContactDTO contactDTO) throws SQLException;
+    boolean update(ContactDTO contactDTO) throws SQLException;
 }

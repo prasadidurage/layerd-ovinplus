@@ -15,7 +15,6 @@ module lk.ijse.gdse72.layerdovinplus {
     exports lk.ijse.gdse72.layerdovinplus.dao;
     exports lk.ijse.gdse72.layerdovinplus.dao.custom;
 
-
     opens lk.ijse.gdse72.layerdovinplus.dto.tm to javafx.base;
     opens lk.ijse.gdse72.layerdovinplus to javafx.fxml;
     opens lk.ijse.gdse72.layerdovinplus.dto to javafx.fxml;

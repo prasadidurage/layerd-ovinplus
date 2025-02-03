@@ -87,32 +87,44 @@ public class ContactController implements Initializable {
 //            String nextCustomerID = customerModel.getNextCustomerID();
 //            System.out.println(nextCustomerID);
 //            lblCustomerId.setText(nextCustomerID);
-        } catch (SQLException e) {
+        } catch (SQLException | ClassNotFoundException e) {
             throw new RuntimeException(e);
         }
         setupBatchSearch();
     }
 
     private void setupBatchSearch() {
+//
+//        txtContactSearch.textProperty().addListener((observable, oldValue, newValue) -> {
+//            searchBatchDetails(txtStudentName.getText(), newValue);
+//        });
+//
+//        txtStudentName.textProperty().addListener((observable, oldValue, newValue) -> {
+//            searchBatchDetails(newValue, txtContactSearch.getText());
+//        });
+//
+//        try {
+//            refreshTable(); // Show all batches if search is cleared
+//        } catch (SQLException e) {
+//            throw new RuntimeException(e);
+//        }
 
         txtContactSearch.textProperty().addListener((observable, oldValue, newValue) -> {
-            searchBatchDetails(txtStudentName.getText(), newValue);
+            if (!newValue.isEmpty()) {
+                searchBatchDetails(newValue);
+            } else {
+                try {
+                    refreshTable(); // Show all batches if search is cleared
+                } catch (SQLException e) {
+                    throw new RuntimeException(e);
+                }
+            }
         });
-
-        txtStudentName.textProperty().addListener((observable, oldValue, newValue) -> {
-            searchBatchDetails(newValue, txtContactSearch.getText());
-        });
-
-        try {
-            refreshTable(); // Show all batches if search is cleared
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
-        }
     }
 
-    private void searchBatchDetails(String searchName,String contactNumber) {
+    private void searchBatchDetails(String searchTerm) {
         try {
-            ArrayList<ContactDTO> searchResults = contactBO.search(searchName, contactNumber);
+            ArrayList<ContactDTO> searchResults = contactBO.search(searchTerm);
             contactTMS = FXCollections.observableArrayList();
 
             for (ContactDTO contact : searchResults) {
@@ -131,10 +143,10 @@ public class ContactController implements Initializable {
         }
     }
 
-    private void refreshPage() throws SQLException {
+    private void refreshPage() throws SQLException, ClassNotFoundException {
         refreshTable();
 
-        String nextBatchId = userBO.getNexttId();
+        String nextBatchId = contactBO.getNextId();
         lblContactId.setText(nextBatchId);
 
         LocalDate currentDate = LocalDate.now();
@@ -152,7 +164,7 @@ public class ContactController implements Initializable {
     }
 
     private void refreshTable() throws SQLException {
-        ArrayList<ContactDTO> contactDTOS = contactModel.getAllContact();
+        ArrayList<ContactDTO> contactDTOS = contactBO.getAll();
         ObservableList<ContactTM> contactTMS = FXCollections.observableArrayList();
 
 
@@ -170,7 +182,7 @@ public class ContactController implements Initializable {
     }
 
     @FXML
-    void saveOnAction(ActionEvent event) throws SQLException {
+    void saveOnAction(ActionEvent event) throws SQLException, ClassNotFoundException {
 
         String id = lblContactId.getText();
         String dateStr = txtDate.getText();
@@ -209,7 +221,7 @@ public class ContactController implements Initializable {
 
         if (isValidName && isValidContactNumber) {
             ContactDTO contactDTO = new ContactDTO(id, date, studentName, Integer.parseInt(contactNumber));
-            boolean isSaved = contactModel.saveContact(contactDTO);
+            boolean isSaved = contactBO.save(contactDTO);
 
             if (isSaved) {
                 new Alert(Alert.AlertType.INFORMATION, "Contact is saved!").show();
@@ -223,7 +235,7 @@ public class ContactController implements Initializable {
     }
 
     @FXML
-    void btnDeleteOnAction(ActionEvent event) throws SQLException {
+    void btnDeleteOnAction(ActionEvent event) throws SQLException, ClassNotFoundException {
         String contactId = lblContactId.getText();
 
         Alert alert = new Alert(Alert.AlertType.CONFIRMATION, "Are you sure you want to delete this Contact?", ButtonType.YES, ButtonType.NO);
@@ -243,12 +255,12 @@ public class ContactController implements Initializable {
     }
 
     @FXML
-    void btnResetOnAction(ActionEvent event) throws SQLException {
+    void btnResetOnAction(ActionEvent event) throws SQLException, ClassNotFoundException {
         refreshPage();
     }
 
     @FXML
-    void btnUpdateOnAction(ActionEvent event) throws SQLException {
+    void btnUpdateOnAction(ActionEvent event) throws SQLException, ClassNotFoundException {
         String id = lblContactId.getText();
         String dateStr = txtDate.getText();
         Date date=Date.valueOf(txtDate.getText());
@@ -279,7 +291,7 @@ public class ContactController implements Initializable {
 
         if (isValidName && isValidContactNumber) {
             ContactDTO contactDTO = new ContactDTO(id, date, name, Integer.parseInt(contactNumber));
-            boolean isUpdated = contactModel.updateContact(contactDTO);
+            boolean isUpdated = contactBO.update(contactDTO);
 
             if (isUpdated) {
                 new Alert(Alert.AlertType.INFORMATION, "Contact updated!").show();

@@ -72,7 +72,7 @@ public class StudentController implements Initializable {
 
         //private final BatchModel batchModel = new BatchModel();
         //private final StudentModel studentModel = new StudentModel();
-        BatchBO batchBO = (BatchBO) BOFactory.getInstance().getBo(BOFactory.BOType.BATCH);
+        //BatchBO batchBO = (BatchBO) BOFactory.getInstance().getBo(BOFactory.BOType.BATCH);
         StudentBO studentBO = (StudentBO) BOFactory.getInstance().getBo(BOFactory.BOType.STUDENT);
 
 
@@ -130,8 +130,10 @@ public class StudentController implements Initializable {
 //
                 } catch (SQLException e) {
                         throw new RuntimeException(e);
+                } catch (ClassNotFoundException e) {
+                    throw new RuntimeException(e);
                 }
-                setupStudentSearch();
+            setupStudentSearch();
 
         }
 
@@ -166,10 +168,10 @@ public class StudentController implements Initializable {
                 }
         }
 
-        private void refreshPage() throws SQLException {
+        private void refreshPage() throws SQLException, ClassNotFoundException {
                 refreshTable();
 
-                String nextStudentId = studentModel.getNextStudentId();
+                String nextStudentId = studentBO.getNextId();
                 lblStuId.setText(nextStudentId);
 
                 txtStuName.setText("");
@@ -184,7 +186,7 @@ public class StudentController implements Initializable {
         }
 
         private void refreshTable() throws SQLException {
-                ArrayList<StudentDTO> studentDTOS = studentModel.getAllStudent();
+                ArrayList<StudentDTO> studentDTOS = studentBO.getAll();
                 ObservableList<StudentTM> studentTMS = FXCollections.observableArrayList();
 
 
@@ -204,7 +206,7 @@ public class StudentController implements Initializable {
 
         @FXML
 
-        void saveOnAction(ActionEvent event) throws SQLException {
+        void saveOnAction(ActionEvent event) throws SQLException, ClassNotFoundException {
                 changeButtonColor(event);
                 String id = lblStuId.getText();
                 String name = txtStuName.getText();
@@ -231,7 +233,7 @@ public class StudentController implements Initializable {
                 if (isValidName ){
                         StudentDTO studentDTO = new StudentDTO(id,name,address,batchId);
 
-                        boolean isSaved = studentModel.saveStudent(studentDTO);
+                        boolean isSaved = studentBO.save(studentDTO);
 
                         if (isSaved) {
                                 new Alert(Alert.AlertType.INFORMATION, "Student saved...!").show();
@@ -245,14 +247,14 @@ public class StudentController implements Initializable {
         }
 
         @FXML
-        void btnDeleteOnAction(ActionEvent event) throws SQLException {
+        void btnDeleteOnAction(ActionEvent event) throws SQLException, ClassNotFoundException {
                 String studentId = lblStuId.getText();
 
                 Alert alert = new Alert(Alert.AlertType.CONFIRMATION, "Are you sure you want to delete this Student?", ButtonType.YES, ButtonType.NO);
                 Optional<ButtonType> buttonType = alert.showAndWait();
                 if (buttonType.get() == ButtonType.YES){
 
-                        boolean isDeleted = studentModel.deleteSthudent(studentId);
+                        boolean isDeleted = studentBO.delete(studentId);
 
                         if (isDeleted){
                                 new Alert(Alert.AlertType.INFORMATION,"Student deleted...!").show();
@@ -265,14 +267,14 @@ public class StudentController implements Initializable {
         }
 
         @FXML
-        void btnResetOnAction(ActionEvent event) throws SQLException {
+        void btnResetOnAction(ActionEvent event) throws SQLException, ClassNotFoundException {
                 changeButtonColor(event);
                 refreshPage();
 
         }
 
         @FXML
-        void btnUpdateOnAction(ActionEvent event) throws SQLException {
+        void btnUpdateOnAction(ActionEvent event) throws SQLException, ClassNotFoundException {
                 changeButtonColor(event);
                 String id = lblStuId.getText();
                 String name = txtStuName.getText();
@@ -297,7 +299,7 @@ public class StudentController implements Initializable {
 
                 if (isValidName  ){
                         StudentDTO studentDTO = new StudentDTO(id,name,address,batchId);
-                        boolean isUpdate = studentModel.updateStudent(studentDTO);
+                        boolean isUpdate = studentBO.update(studentDTO);
 
 
 
@@ -331,7 +333,7 @@ public class StudentController implements Initializable {
         }
 
         private void loradBatchId() throws SQLException {
-                ArrayList<String> batchIds = batchModel.getAllBatchIds();
+                ArrayList<String> batchIds = studentBO.getAllBatchIds();
                 ObservableList<String> observableList = FXCollections.observableArrayList();
                 observableList.addAll(batchIds);
                 cmbBatch.setItems(observableList);
@@ -340,7 +342,7 @@ public class StudentController implements Initializable {
         @FXML
         void selectBatchOnAction(ActionEvent event) throws SQLException {
                 String selectedBatchId = cmbBatch.getSelectionModel().getSelectedItem();
-                BatchDTO batchDTO = batchModel.findById(selectedBatchId);
+                BatchDTO batchDTO = studentBO.findById(selectedBatchId);
 
                 // If customer found (customerDTO not null)
                 if (batchDTO != null) {

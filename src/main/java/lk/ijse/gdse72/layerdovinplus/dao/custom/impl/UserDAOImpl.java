@@ -3,6 +3,7 @@ package lk.ijse.gdse72.layerdovinplus.dao.custom.impl;
 import lk.ijse.gdse72.layerdovinplus.dao.custom.UserDAO;
 import lk.ijse.gdse72.layerdovinplus.dao.SQLUtil;
 import lk.ijse.gdse72.layerdovinplus.dto.UserDTO;
+import lk.ijse.gdse72.layerdovinplus.entity.Batch;
 import lk.ijse.gdse72.layerdovinplus.entity.User;
 
 import java.sql.ResultSet;
@@ -81,6 +82,11 @@ public class UserDAOImpl implements UserDAO {
 //                rst.getString("name"),rst.getString("address"));
 //    }
         return (ArrayList<User>) userList;
+    }
+
+    @Override
+    public Batch findById(String selectedBatchId) throws SQLException {
+        return null;
     }
 
     @Override

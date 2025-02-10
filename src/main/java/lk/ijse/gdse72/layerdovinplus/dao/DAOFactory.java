@@ -1,9 +1,6 @@
 package lk.ijse.gdse72.layerdovinplus.dao;
 
-import lk.ijse.gdse72.layerdovinplus.dao.custom.impl.BatchDAOImpl;
-import lk.ijse.gdse72.layerdovinplus.dao.custom.impl.ContactDAOImpl;
-import lk.ijse.gdse72.layerdovinplus.dao.custom.impl.StudentDAOImpl;
-import lk.ijse.gdse72.layerdovinplus.dao.custom.impl.UserDAOImpl;
+import lk.ijse.gdse72.layerdovinplus.dao.custom.impl.*;
 
 public class DAOFactory {
     private static DAOFactory daoFactory;
@@ -12,7 +9,7 @@ public class DAOFactory {
     }
     public static DAOFactory getInstance() {return daoFactory == null ? daoFactory = new DAOFactory() : daoFactory;}
     public  enum DAOType {
-        USER, BATCH, STUDENT, CONTACT
+        USER, BATCH, STUDENT, CONTACT,TUTE,EMPLOYEE
     }
     public SuperDAO getDAO(DAOType type) {
         switch (type) {
@@ -27,6 +24,12 @@ public class DAOFactory {
 
             case STUDENT:
                 return new StudentDAOImpl();
+
+                case TUTE:
+                    return new TuteDAOImpl();
+
+                    case EMPLOYEE:
+                        return new EmployeeDAOImpl();
 
                 default:
                     return null;

@@ -22,7 +22,7 @@ public class BatchDAOImpl implements BatchDAO {
                     rst.getString(2),
                     rst.getInt(3)
 
-            ) );
+            ));
 
         }
         return batchArrayList;
@@ -88,5 +88,20 @@ public class BatchDAOImpl implements BatchDAO {
 
         return batchArrayList;
 
+    }
+
+    @Override
+    public Batch findById(String selectedBatchId) throws SQLException {
+        ResultSet rst = SQLUtil.execute("SELECT * FROM Batch WHERE BatchId=?", selectedBatchId);
+
+        if (rst.next()) {
+            return new Batch(
+                    rst.getString("BatchId"),
+                    rst.getString("BatchName"),
+                    rst.getInt("StudentCount")
+            );
+        }
+
+        return null;
     }
 }

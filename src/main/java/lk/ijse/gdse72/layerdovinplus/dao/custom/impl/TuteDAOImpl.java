@@ -2,6 +2,7 @@ package lk.ijse.gdse72.layerdovinplus.dao.custom.impl;
 
 import lk.ijse.gdse72.layerdovinplus.dao.SQLUtil;
 import lk.ijse.gdse72.layerdovinplus.dao.custom.TuteDAO;
+import lk.ijse.gdse72.layerdovinplus.dto.OrderDetailsDTO;
 import lk.ijse.gdse72.layerdovinplus.entity.Batch;
 import lk.ijse.gdse72.layerdovinplus.entity.Tute;
 
@@ -88,7 +89,25 @@ public class TuteDAOImpl implements TuteDAO {
     }
 
     @Override
-    public Tute findById(String selectedBatchId) throws SQLException {
+    public Tute findById(String selectedId) throws SQLException {
+        ResultSet rst = SQLUtil.execute("select * from Tute where tuteId=?", selectedId);
+
+        // If the item is found, create an ItemDTO object with the retrieved data
+        if (rst.next()) {
+            return new Tute(
+                    rst.getString(1),
+                    rst.getString(2),
+                    rst.getInt(3),
+                    rst.getDouble(4)
+            );
+        }
         return null;
     }
+
+    @Override
+    public boolean reduceQty(OrderDetailsDTO orderDetailsDTO) throws SQLException {
+        return false;
+    }
 }
+
+

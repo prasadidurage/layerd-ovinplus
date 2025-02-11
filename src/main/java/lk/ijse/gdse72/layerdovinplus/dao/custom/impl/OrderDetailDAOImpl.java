@@ -43,4 +43,9 @@ public class OrderDetailDAOImpl implements OrderDetailDAO {
         return null;
     }
 
+    @Override
+    public boolean reduceQty(OrderDetailsDTO orderDetailsDTO) throws SQLException {
+        return false;
+    }
+
 }

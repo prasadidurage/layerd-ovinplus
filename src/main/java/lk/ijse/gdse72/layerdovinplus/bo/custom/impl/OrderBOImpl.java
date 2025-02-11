@@ -8,10 +8,7 @@ import lk.ijse.gdse72.layerdovinplus.dao.custom.OrderDetailDAO;
 import lk.ijse.gdse72.layerdovinplus.dao.custom.StudentDAO;
 import lk.ijse.gdse72.layerdovinplus.dao.custom.TuteDAO;
 import lk.ijse.gdse72.layerdovinplus.db.DBConnection;
-import lk.ijse.gdse72.layerdovinplus.dto.BatchDTO;
-import lk.ijse.gdse72.layerdovinplus.dto.OrderDTO;
-import lk.ijse.gdse72.layerdovinplus.dto.StudentDTO;
-import lk.ijse.gdse72.layerdovinplus.dto.TuteDTO;
+import lk.ijse.gdse72.layerdovinplus.dto.*;
 import lk.ijse.gdse72.layerdovinplus.entity.Batch;
 import lk.ijse.gdse72.layerdovinplus.entity.Student;
 import lk.ijse.gdse72.layerdovinplus.entity.Tute;
@@ -54,45 +51,70 @@ public class OrderBOImpl implements OrderBO {
 
     @Override
     public boolean saveOrder(OrderDTO orderDTO) throws SQLException {
-        // trancestion tika
-
-
-
-        // @connection: Retrieves the current connection instance for the database
         Connection connection = DBConnection.getInstance().getConnection();
         try {
-            // @autoCommit: Disables auto-commit to manually control the transaction
-            connection.setAutoCommit(false); // 1
+            // Disable auto-commit for transaction management
+            connection.setAutoCommit(false);
 
-            // @isOrderSaved: Saves the order details into the orders table
+            // Step 1: Insert the main order into the 'orders' table
             boolean isOrderSaved = SQLUtil.execute(
-                    "insert into orders values (?,?,?)",
+                    "insert into orders (orderId, orderDate, studentId) values (?,?,?)",
                     orderDTO.getOrderId(),
                     orderDTO.getOrderDate(),
                     orderDTO.getStudentId()
             );
-            // If the order is saved successfully
-            if (isOrderSaved) {
-                // @isOrderDetailListSaved: Saves the list of order details
-                // boolean isOrderDetailSaved = orderDetailsDAO.save(orderDetail);
-                boolean isOrderDetailListSaved = orderDetailDAO.saveDetail(orderDTO.getOrderDetailsDTOS());
-                if (isOrderDetailListSaved) {
-                    // @commit: Commits the transaction if both order and details are saved successfully
-                    connection.commit(); // 2
-                    return true;
+
+            // If the order wasn't saved, rollback and return false
+            if (!isOrderSaved) {
+                connection.rollback();
+                return false;
+            }
+
+            // Step 2: Iterate through each order detail and save them
+            for (OrderDetailsDTO orderDetailsDTO : orderDTO.getOrderDetailsDTOS()) {
+                // Save the individual order detail into the 'order_details' table
+                boolean isOrderDetailsSaved = saveOrderDetail(orderDetailsDTO);
+                if (!isOrderDetailsSaved) {
+                    connection.rollback(); // Rollback if saving any order detail fails
+                    return false;
+                }
+
+                // Update the stock quantity for the corresponding tute
+                boolean isItemUpdated = tuteDAO.reduceQty(orderDetailsDTO);
+                if (!isItemUpdated) {
+                    connection.rollback(); // Rollback if quantity update fails
+                    return false;
                 }
             }
-            // @rollback: Rolls back the transaction if order details saving fails
-            connection.rollback(); // 3
-            return false;
+
+            // Step 3: Commit the transaction if everything is successful
+            connection.commit();
+            return true;
+
         } catch (Exception e) {
-            // @catch: Rolls back the transaction in case of any exception
-            connection.rollback();
+            // Print exception for debugging
+            e.printStackTrace();
+            try {
+                // Rollback the transaction in case of any exception
+                connection.rollback();
+            } catch (SQLException rollbackEx) {
+                rollbackEx.printStackTrace();
+            }
             return false;
         } finally {
-            // @finally: Resets auto-commit to true after the operation
-            connection.setAutoCommit(true); // 4
+            // Step 4: Set auto-commit back to true after transaction
+            connection.setAutoCommit(true);
         }
+    }
+
+    private boolean saveOrderDetail(OrderDetailsDTO orderDetailsDTO) throws SQLException {
+        return SQLUtil.execute(
+                "insert into orderDetail  values (?,?,?,?)",
+                orderDetailsDTO.getTuteId(),
+                orderDetailsDTO.getOrderId(),
+                orderDetailsDTO.getQuantity(),
+                orderDetailsDTO.getPrice()
+        );
     }
 
 

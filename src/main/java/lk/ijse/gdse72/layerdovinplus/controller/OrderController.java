@@ -106,11 +106,14 @@ public class OrderController implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
+        System.out.println("OrderController");
         setCellValues();
+        System.out.println("ssd");
 
         // Load data and initialize the page
         try {
             refreshPage();
+            System.out.println("dd");
         } catch (SQLException e) {
             new Alert(Alert.AlertType.ERROR, "Fail to load data..!").show();
         } catch (ClassNotFoundException e) {

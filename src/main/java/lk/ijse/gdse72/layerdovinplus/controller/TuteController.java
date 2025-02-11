@@ -16,6 +16,8 @@ import lk.ijse.gdse72.layerdovinplus.bo.custom.TuteBO;
 import lk.ijse.gdse72.layerdovinplus.db.DBConnection;
 import lk.ijse.gdse72.layerdovinplus.dto.TuteDTO;
 import lk.ijse.gdse72.layerdovinplus.dto.tm.TuteTM;
+import net.sf.jasperreports.engine.*;
+import net.sf.jasperreports.view.JasperViewer;
 //import net.sf.jasperreports.engine.*;
 //import net.sf.jasperreports.view.JasperViewer;
 
@@ -314,29 +316,29 @@ public class TuteController implements Initializable {
     void reportOnClick(MouseEvent event) {
 
 
-//        try {
-//            Connection connection = DBConnection.getInstance().getConnection();
-//
-//
-//            Map<String, Object> parameters = new HashMap<>();
-//
-//
-//            JasperReport jasperReport = JasperCompileManager.compileReport(getClass().getResourceAsStream("/Report/StudentOrder.jrxml"));
-//            JasperPrint jasperPrint = JasperFillManager.fillReport(
-//                    jasperReport,
-//                    parameters,
-//                    connection
-//            );
-//
-//
-//            JasperViewer.viewReport(jasperPrint, false);
-//        } catch (JRException e) {
-//            new Alert(Alert.AlertType.ERROR, "Fail to load report..!");
-//            e.printStackTrace();
-//        } catch (SQLException e) {
-//            new Alert(Alert.AlertType.ERROR, "Data empty..!");
-//            e.printStackTrace();
-//        }
+        try {
+            Connection connection = DBConnection.getInstance().getConnection();
+
+
+            Map<String, Object> parameters = new HashMap<>();
+
+
+            JasperReport jasperReport = JasperCompileManager.compileReport(getClass().getResourceAsStream("/Report/StudentOrder.jrxml"));
+            JasperPrint jasperPrint = JasperFillManager.fillReport(
+                    jasperReport,
+                    parameters,
+                    connection
+            );
+
+
+            JasperViewer.viewReport(jasperPrint, false);
+        } catch (JRException e) {
+            new Alert(Alert.AlertType.ERROR, "Fail to load report..!");
+            e.printStackTrace();
+        } catch (SQLException e) {
+            new Alert(Alert.AlertType.ERROR, "Data empty..!");
+            e.printStackTrace();
+        }
 
     }
 

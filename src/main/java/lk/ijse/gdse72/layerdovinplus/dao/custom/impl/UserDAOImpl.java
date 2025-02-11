@@ -2,6 +2,7 @@ package lk.ijse.gdse72.layerdovinplus.dao.custom.impl;
 
 import lk.ijse.gdse72.layerdovinplus.dao.custom.UserDAO;
 import lk.ijse.gdse72.layerdovinplus.dao.SQLUtil;
+import lk.ijse.gdse72.layerdovinplus.dto.OrderDetailsDTO;
 import lk.ijse.gdse72.layerdovinplus.dto.UserDTO;
 import lk.ijse.gdse72.layerdovinplus.entity.Batch;
 import lk.ijse.gdse72.layerdovinplus.entity.User;
@@ -87,6 +88,11 @@ public class UserDAOImpl implements UserDAO {
     @Override
     public User findById(String selectedBatchId) throws SQLException {
         return null;
+    }
+
+    @Override
+    public boolean reduceQty(OrderDetailsDTO orderDetailsDTO) throws SQLException {
+        return false;
     }
 
     @Override

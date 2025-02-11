@@ -3,6 +3,7 @@ package lk.ijse.gdse72.layerdovinplus.dao.custom.impl;
 import lk.ijse.gdse72.layerdovinplus.bo.custom.EmployeeBO;
 import lk.ijse.gdse72.layerdovinplus.dao.SQLUtil;
 import lk.ijse.gdse72.layerdovinplus.dao.custom.EmloyeeDAO;
+import lk.ijse.gdse72.layerdovinplus.dto.OrderDetailsDTO;
 import lk.ijse.gdse72.layerdovinplus.entity.Batch;
 import lk.ijse.gdse72.layerdovinplus.entity.Employee;
 
@@ -91,5 +92,10 @@ public class EmployeeDAOImpl implements EmloyeeDAO {
     @Override
     public Employee findById(String selectedBatchId) throws SQLException {
         return null;
+    }
+
+    @Override
+    public boolean reduceQty(OrderDetailsDTO orderDetailsDTO) throws SQLException {
+        return false;
     }
 }

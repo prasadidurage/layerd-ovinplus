@@ -2,6 +2,7 @@ package lk.ijse.gdse72.layerdovinplus.dao.custom.impl;
 
 import lk.ijse.gdse72.layerdovinplus.dao.SQLUtil;
 import lk.ijse.gdse72.layerdovinplus.dao.custom.ContactDAO;
+import lk.ijse.gdse72.layerdovinplus.dto.OrderDetailsDTO;
 import lk.ijse.gdse72.layerdovinplus.entity.Contact;
 
 import java.sql.ResultSet;
@@ -96,6 +97,11 @@ public class ContactDAOImpl implements ContactDAO {
     @Override
     public Contact findById(String selectedBatchId) throws SQLException {
         return null;
+    }
+
+    @Override
+    public boolean reduceQty(OrderDetailsDTO orderDetailsDTO) throws SQLException {
+        return false;
     }
 }
 

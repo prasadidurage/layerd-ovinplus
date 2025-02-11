@@ -3,6 +3,7 @@ package lk.ijse.gdse72.layerdovinplus.dao.custom.impl;
 import lk.ijse.gdse72.layerdovinplus.dao.SQLUtil;
 import lk.ijse.gdse72.layerdovinplus.dao.custom.StudentDAO;
 import lk.ijse.gdse72.layerdovinplus.dto.BatchDTO;
+import lk.ijse.gdse72.layerdovinplus.dto.OrderDetailsDTO;
 import lk.ijse.gdse72.layerdovinplus.entity.Student;
 
 import java.sql.ResultSet;
@@ -93,7 +94,27 @@ public class StudentDAOImpl implements StudentDAO {
     }
 
     @Override
-    public Student findById(String selectedBatchId) throws SQLException {
+    public Student findById(String selecteId) throws SQLException {
+        ResultSet rst = SQLUtil.execute("select * from Student where StudentId=?", selecteId);
+
+        if (rst.next()) {
+            return new Student(
+                    rst.getString(1),
+                    rst.getString(2),
+                    rst.getString(3),
+                    rst.getString(4)
+            );
+
+        }
         return null;
+    }
+
+    @Override
+    public boolean reduceQty(OrderDetailsDTO orderDetailsDTO) throws SQLException {
+        return SQLUtil.execute(
+                "update Tute set  tuteQty =  tuteQty - ? where tuteId = ?",
+                orderDetailsDTO.getQuantity(),
+                orderDetailsDTO.getTuteId()
+        );
     }
 }

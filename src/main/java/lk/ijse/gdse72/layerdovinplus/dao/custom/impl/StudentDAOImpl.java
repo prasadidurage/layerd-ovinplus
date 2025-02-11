@@ -2,8 +2,7 @@ package lk.ijse.gdse72.layerdovinplus.dao.custom.impl;
 
 import lk.ijse.gdse72.layerdovinplus.dao.SQLUtil;
 import lk.ijse.gdse72.layerdovinplus.dao.custom.StudentDAO;
-import lk.ijse.gdse72.layerdovinplus.entity.Batch;
-import lk.ijse.gdse72.layerdovinplus.entity.Contact;
+import lk.ijse.gdse72.layerdovinplus.dto.BatchDTO;
 import lk.ijse.gdse72.layerdovinplus.entity.Student;
 
 import java.sql.ResultSet;
@@ -94,7 +93,7 @@ public class StudentDAOImpl implements StudentDAO {
     }
 
     @Override
-    public Batch findById(String selectedBatchId) throws SQLException {
+    public Student findById(String selectedBatchId) throws SQLException {
         return null;
     }
 }

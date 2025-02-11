@@ -88,7 +88,7 @@ public class TuteDAOImpl implements TuteDAO {
     }
 
     @Override
-    public Batch findById(String selectedBatchId) throws SQLException {
+    public Tute findById(String selectedBatchId) throws SQLException {
         return null;
     }
 }

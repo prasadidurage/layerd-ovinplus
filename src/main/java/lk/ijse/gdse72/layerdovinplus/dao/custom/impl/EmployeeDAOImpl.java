@@ -89,7 +89,7 @@ public class EmployeeDAOImpl implements EmloyeeDAO {
     }
 
     @Override
-    public Batch findById(String selectedBatchId) throws SQLException {
+    public Employee findById(String selectedBatchId) throws SQLException {
         return null;
     }
 }

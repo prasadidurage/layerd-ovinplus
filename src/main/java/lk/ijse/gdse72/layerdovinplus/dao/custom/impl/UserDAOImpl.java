@@ -85,7 +85,7 @@ public class UserDAOImpl implements UserDAO {
     }
 
     @Override
-    public Batch findById(String selectedBatchId) throws SQLException {
+    public User findById(String selectedBatchId) throws SQLException {
         return null;
     }
 

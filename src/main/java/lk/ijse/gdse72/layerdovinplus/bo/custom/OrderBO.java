@@ -11,9 +11,9 @@ import java.util.ArrayList;
 public interface OrderBO  extends SuperBO {
     String getNextOrderId() throws SQLException, ClassNotFoundException;
 
-    ArrayList<TuteDTO> getAlltuteIds() throws SQLException;
+    ArrayList<String> getAlltuteIds() throws SQLException;
 
-    ArrayList<StudentDTO> getAllStudentIds() throws SQLException;
+    ArrayList<String> getAllStudentIds() throws SQLException;
 
     boolean saveOrder(OrderDTO orderDTO) throws SQLException;
 

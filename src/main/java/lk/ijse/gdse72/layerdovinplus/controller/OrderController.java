@@ -171,16 +171,21 @@ public class OrderController implements Initializable {
 
     // methana poddak blnn
     private void loadTuteId() throws SQLException {
-        ArrayList<TuteDTO> tuteIds = orderBO.getAlltuteIds();
+//        ArrayList<String> batchIds = studentBO.getAllBatchIds();
+//        ObservableList<String> observableList = FXCollections.observableArrayList();
+//        observableList.addAll(batchIds);
+//        cmbBatch.setItems(observableList)
+
+        ArrayList<String> tuteIds = orderBO.getAlltuteIds();
         ObservableList<String> observableList = FXCollections.observableArrayList();
-        observableList.addAll(String.valueOf(tuteIds));
+        observableList.addAll(tuteIds);
         cmbTuteId.setItems(observableList);
     }
 
     private void loadStudentIds() throws SQLException {
-        ArrayList<StudentDTO> studentIds = orderBO.getAllStudentIds();
+        ArrayList<String> studentIds = orderBO.getAllStudentIds();
         ObservableList<String> observableList = FXCollections.observableArrayList();
-        observableList.addAll(String.valueOf(studentIds));
+        observableList.addAll(studentIds);
         cmbStudentId.setItems(observableList);
     }
 

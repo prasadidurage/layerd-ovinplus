@@ -1,5 +1,6 @@
 package lk.ijse.gdse72.layerdovinplus.dao.custom.impl;
 
+import lk.ijse.gdse72.layerdovinplus.dao.SQLUtil;
 import lk.ijse.gdse72.layerdovinplus.dao.custom.OrderDetailDAO;
 import lk.ijse.gdse72.layerdovinplus.dto.OrderDetailsDTO;
 import lk.ijse.gdse72.layerdovinplus.entity.OrderDetail;
@@ -15,7 +16,13 @@ public class OrderDetailDAOImpl implements OrderDetailDAO {
 
     @Override
     public boolean save(OrderDetail entity) throws SQLException {
-        return false;
+        return SQLUtil.execute(
+                "insert into orderdetail  values (?,?,?,?)",
+                entity.getTuteId(),
+                entity.getOrderId(),
+                entity.getQuantity(),
+                entity.getPrice()
+        );
     }
 
     @Override

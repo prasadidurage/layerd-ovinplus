@@ -106,7 +106,11 @@ public class TuteDAOImpl implements TuteDAO {
 
     @Override
     public boolean reduceQty(OrderDetailsDTO orderDetailsDTO) throws SQLException {
-        return false;
+        return SQLUtil.execute(
+                "update Tute set  tuteQty =  tuteQty - ? where tuteId = ?",
+                orderDetailsDTO.getQuantity(),
+                orderDetailsDTO.getTuteId()
+        );
     }
 }
 

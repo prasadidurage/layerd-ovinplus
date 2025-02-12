@@ -3,154 +3,143 @@ package lk.ijse.gdse72.layerdovinplus.bo.custom.impl;
 import lk.ijse.gdse72.layerdovinplus.bo.custom.OrderBO;
 import lk.ijse.gdse72.layerdovinplus.dao.DAOFactory;
 import lk.ijse.gdse72.layerdovinplus.dao.SQLUtil;
-import lk.ijse.gdse72.layerdovinplus.dao.custom.OrderDAO;
-import lk.ijse.gdse72.layerdovinplus.dao.custom.OrderDetailDAO;
-import lk.ijse.gdse72.layerdovinplus.dao.custom.StudentDAO;
-import lk.ijse.gdse72.layerdovinplus.dao.custom.TuteDAO;
+import lk.ijse.gdse72.layerdovinplus.dao.custom.*;
 import lk.ijse.gdse72.layerdovinplus.db.DBConnection;
 import lk.ijse.gdse72.layerdovinplus.dto.*;
 import lk.ijse.gdse72.layerdovinplus.entity.Batch;
+import lk.ijse.gdse72.layerdovinplus.entity.OrderDetail;
 import lk.ijse.gdse72.layerdovinplus.entity.Student;
 import lk.ijse.gdse72.layerdovinplus.entity.Tute;
 
 import java.sql.Connection;
-import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 
+
+
 public class OrderBOImpl implements OrderBO {
+
+    EmloyeeDAO emloyeeDAO = (EmloyeeDAO) DAOFactory.getInstance().getDAO(DAOFactory.DAOType.EMPLOYEE);
     OrderDAO orderDAO = (OrderDAO) DAOFactory.getInstance().getDAO(DAOFactory.DAOType.ORDER);
     TuteDAO tuteDAO = (TuteDAO) DAOFactory.getInstance().getDAO(DAOFactory.DAOType.TUTE);
-    StudentDAO studentDAO = (StudentDAO) DAOFactory.getInstance().getDAO(DAOFactory.DAOType.STUDENT);
     OrderDetailDAO orderDetailDAO = (OrderDetailDAO) DAOFactory.getInstance().getDAO(DAOFactory.DAOType.ORDER_DETAIL);
+    StudentDAO studentDAO = (StudentDAO) DAOFactory.getInstance().getDAO(DAOFactory.DAOType.STUDENT);
 
     @Override
     public String getNextOrderId() throws SQLException, ClassNotFoundException {
-        return  orderDAO.getNextId();
+        return orderDAO.getNextId();
     }
 
     @Override
-    public ArrayList<TuteDTO> getAlltuteIds() throws SQLException {
-        ArrayList<TuteDTO> tuteDTOArrayList = new ArrayList<>();
-        ArrayList<Tute>tutes=tuteDAO.getAll();
-        for(Tute tute:tutes){
-            tuteDTOArrayList.add(new TuteDTO(tute.getTuteId(),tute.getTuteName(),tute.getTuteQty(),tute.getTutePrice()));
+    public ArrayList<String> getAlltuteIds() throws SQLException {
+        ArrayList<String> tuteIds = new ArrayList<>();
+        ArrayList<Tute> tutes = tuteDAO.getAll(); // Fetch all batches
+        for (Tute tute : tutes) {
+            tuteIds.add(tute.getTuteId()); // Extract batch ID and add it to the list
         }
-        return tuteDTOArrayList;
+
+        return tuteIds;
     }
 
     @Override
-    public ArrayList<StudentDTO> getAllStudentIds() throws SQLException {
-        ArrayList<StudentDTO> studentDTOS = new ArrayList<>();
-        ArrayList<Student> students = studentDAO.getAll();
+    public ArrayList<String> getAllStudentIds() throws SQLException {
+        ArrayList<String> studentIds = new ArrayList<>();
+        ArrayList<Student> students = studentDAO.getAll(); // Fetch all batches
         for (Student student : students) {
-            studentDTOS.add(new StudentDTO(student.getStudentId(),student.getStudentName(),student.getAddress(),student.getBatchId()));
+            studentIds.add(student.getStudentId()); // Extract batch ID and add it to the list
         }
-        return studentDTOS;
+
+        return studentIds;
     }
 
     @Override
     public boolean saveOrder(OrderDTO orderDTO) throws SQLException {
         Connection connection = DBConnection.getInstance().getConnection();
         try {
-            // Disable auto-commit for transaction management
-            connection.setAutoCommit(false);
+            connection.setAutoCommit(false); // 1. Start transaction
 
-            // Step 1: Insert the main order into the 'orders' table
+            // 2. Save order details to orders table
             boolean isOrderSaved = SQLUtil.execute(
-                    "insert into orders (orderId, orderDate, studentId) values (?,?,?)",
+                    "INSERT INTO orders VALUES (?,?,?)",
                     orderDTO.getOrderId(),
                     orderDTO.getOrderDate(),
                     orderDTO.getStudentId()
             );
+            System.out.println("Order Saved: " );
 
-            // If the order wasn't saved, rollback and return false
             if (!isOrderSaved) {
                 connection.rollback();
                 return false;
             }
 
-            // Step 2: Iterate through each order detail and save them
+            // 3. Save order details list
             for (OrderDetailsDTO orderDetailsDTO : orderDTO.getOrderDetailsDTOS()) {
-                // Save the individual order detail into the 'order_details' table
-                boolean isOrderDetailsSaved = saveOrderDetail(orderDetailsDTO);
+                // Convert DTO to Entity
+                OrderDetail orderDetail = new OrderDetail(
+                        orderDetailsDTO.getOrderId(),
+                        orderDetailsDTO.getTuteId(),
+                        orderDetailsDTO.getQuantity(),
+                        orderDetailsDTO.getPrice()
+
+                );
+                System.out.println("Order Detail Saved: " );
+
+                boolean isOrderDetailsSaved = orderDetailDAO.save(orderDetail); // Save entity instead of DTO
                 if (!isOrderDetailsSaved) {
-                    connection.rollback(); // Rollback if saving any order detail fails
+                    connection.rollback();
                     return false;
                 }
+                System.out.println("j");
 
-                // Update the stock quantity for the corresponding tute
+
+
+                // 4. Reduce item quantity
                 boolean isItemUpdated = tuteDAO.reduceQty(orderDetailsDTO);
                 if (!isItemUpdated) {
-                    connection.rollback(); // Rollback if quantity update fails
+                    connection.rollback();
                     return false;
                 }
             }
+            System.out.println("k");
 
-            // Step 3: Commit the transaction if everything is successful
-            connection.commit();
+            connection.commit(); // 5. Commit transaction if everything is successful
             return true;
-
         } catch (Exception e) {
-            // Print exception for debugging
-            e.printStackTrace();
             try {
-                // Rollback the transaction in case of any exception
-                connection.rollback();
-            } catch (SQLException rollbackEx) {
-                rollbackEx.printStackTrace();
+                connection.rollback(); // Rollback transaction on error
+            } catch (SQLException rollbackException) {
+                rollbackException.printStackTrace();
             }
+            e.printStackTrace();
             return false;
         } finally {
-            // Step 4: Set auto-commit back to true after transaction
-            connection.setAutoCommit(true);
+            try {
+                connection.setAutoCommit(true); // Reset auto-commit mode
+            } catch (SQLException autoCommitException) {
+                autoCommitException.printStackTrace();
+            }
         }
     }
-
-    private boolean saveOrderDetail(OrderDetailsDTO orderDetailsDTO) throws SQLException {
-        return SQLUtil.execute(
-                "insert into orderDetail  values (?,?,?,?)",
-                orderDetailsDTO.getTuteId(),
-                orderDetailsDTO.getOrderId(),
-                orderDetailsDTO.getQuantity(),
-                orderDetailsDTO.getPrice()
-        );
-    }
-
-
 
     @Override
     public StudentDTO findByStudentId(String selectedStudentId) throws SQLException {
-        Student student = studentDAO.findById(selectedStudentId); // Fetch batch by ID
-
+        Student student =studentDAO.findById(selectedStudentId);
         if (student != null) {
             return new StudentDTO(student.getStudentId(),student.getStudentName(),student.getAddress(),student.getBatchId());
-        } else {
-            return null; // Return null if batch is not found
-        }
-    }
 
-    @Override
-    public TuteDTO findByTuteFId(String selectedTuteId) throws SQLException {
-        Tute tute =tuteDAO.findById(selectedTuteId);
-        if (tute != null) {
-            return new TuteDTO(tute.getTuteId(),tute.getTuteName(),tute.getTuteQty(),tute.getTutePrice());
         }else {
             return null;
         }
     }
 
+    @Override
+    public TuteDTO findByTuteFId(String selectedTuteId) throws SQLException {
+        Tute tute = tuteDAO.findById(selectedTuteId); // Fetch batch by ID
 
-    // public ArrayList<String> getAllOrderIds() throws SQLException {
-//        ResultSet rst = SQLUtil.execute("select orderId from orders");
-//
-//        ArrayList<String> orderIds = new ArrayList<>();
-//
-//        while (rst.next()) {
-//            orderIds.add(rst.getString(1));
-//        }
-//
-//        return orderIds;
-//    }
-
+        if (tute != null) {
+            return new TuteDTO(tute.getTuteId(),tute.getTuteName(),tute.getTuteQty(),tute.getTutePrice());
+        } else {
+            return null; // Return null if batch is not found
+        }
+    }
 }

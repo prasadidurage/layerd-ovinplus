@@ -116,7 +116,21 @@ public class OrderDAOImpl implements OrderDAO {
 
     @Override
     public ArrayList<Order> search(String searchTerm) throws SQLException {
-        return null;
+        String query = "SELECT * FROM orders WHERE orderId LIKE ? OR orderDate LIKE ? OR studentId LIKE ?";
+        ResultSet rst = SQLUtil.execute(query, "%" + searchTerm + "%", "%" + searchTerm + "%", "%" + searchTerm + "%");
+
+        ArrayList<Order> matchingOrders = new ArrayList<>();
+
+        while (rst.next()) {
+            String orderId = rst.getString("orderId");
+            Date orderDate = rst.getDate("orderDate");
+            String studentId = rst.getString("studentId");
+
+            Order order = new Order(orderId, orderDate, studentId);
+            matchingOrders.add(order);
+        }
+
+        return matchingOrders;
     }
 
     @Override

@@ -20,4 +20,8 @@ public interface OrderBO  extends SuperBO {
     StudentDTO findByStudentId(String selectedStudentId) throws SQLException;
 
     TuteDTO findByTuteFId(String selectedTuteId) throws SQLException;
+
+    ArrayList<OrderDTO> searchOrders(String searchText) throws SQLException;
+
+    ArrayList<OrderDTO> getOrders() throws SQLException;
 }

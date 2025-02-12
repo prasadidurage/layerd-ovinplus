@@ -17,4 +17,11 @@ public class Order {
     private String studentId;
 
     private ArrayList<OrderDetailsDTO> orderDetailsDTOS;
+
+    public Order(String orderId, Date orderDate, String studentId) {
+        this.orderId = orderId;
+        this.orderDate = orderDate;
+        this.studentId = studentId;
+        this.orderDetailsDTOS = new ArrayList<>(); // Initialize empty list
+    }
 }

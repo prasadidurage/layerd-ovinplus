@@ -20,7 +20,7 @@ public class EmployeeBOImpl  implements EmployeeBO {
     @Override
     public ArrayList<EmployeeDTO> searchEmployee(String searchTerm) throws SQLException {
         ArrayList<EmployeeDTO> employeeDTOS = new ArrayList<>();
-        ArrayList<Employee> employees = emloyeeDAO.getAll();
+        ArrayList<Employee> employees = emloyeeDAO.search(searchTerm);
         for (Employee employee : employees) {
             employeeDTOS.add(new EmployeeDTO(employee.getEmployeeId(),employee.getEmployeeName(),employee.getJoinDate(),employee.getJobRole()));
 

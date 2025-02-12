@@ -6,15 +6,12 @@ import lk.ijse.gdse72.layerdovinplus.dao.SQLUtil;
 import lk.ijse.gdse72.layerdovinplus.dao.custom.*;
 import lk.ijse.gdse72.layerdovinplus.db.DBConnection;
 import lk.ijse.gdse72.layerdovinplus.dto.*;
-import lk.ijse.gdse72.layerdovinplus.entity.Batch;
-import lk.ijse.gdse72.layerdovinplus.entity.OrderDetail;
-import lk.ijse.gdse72.layerdovinplus.entity.Student;
-import lk.ijse.gdse72.layerdovinplus.entity.Tute;
+import lk.ijse.gdse72.layerdovinplus.entity.*;
 
 import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.ArrayList;
-
+import java.util.Locale;
 
 
 public class OrderBOImpl implements OrderBO {
@@ -141,5 +138,27 @@ public class OrderBOImpl implements OrderBO {
         } else {
             return null; // Return null if batch is not found
         }
+    }
+
+    @Override
+    public ArrayList<OrderDTO> searchOrders(String searchText) throws SQLException {
+        ArrayList<OrderDTO> orderDTOArrayList = new ArrayList<>();
+        ArrayList<Order> orders = orderDAO.search(searchText);
+        for (Order order : orders) {
+            orderDTOArrayList.add(new OrderDTO(order.getOrderId(),order.getOrderDate(),order.getStudentId(),order.getOrderDetailsDTOS()));
+
+        }
+        return orderDTOArrayList;
+    }
+
+    @Override
+    public ArrayList<OrderDTO> getOrders() throws SQLException {
+        ArrayList<OrderDTO> orderDTOArrayList = new ArrayList<>();
+        ArrayList<Order> orders = orderDAO.getAll();
+        for (Order order : orders) {
+            orderDTOArrayList.add(new OrderDTO(order.getOrderId(),order.getOrderDate(),order.getStudentId(),order.getOrderDetailsDTOS()));
+
+        }
+        return orderDTOArrayList;
     }
 }

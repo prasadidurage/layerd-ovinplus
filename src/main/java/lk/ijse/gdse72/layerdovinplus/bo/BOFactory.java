@@ -2,6 +2,9 @@ package lk.ijse.gdse72.layerdovinplus.bo;
 
 import lk.ijse.gdse72.layerdovinplus.bo.custom.impl.*;
 import lk.ijse.gdse72.layerdovinplus.bo.custom.impl.BatchBOIMpl;
+import lk.ijse.gdse72.layerdovinplus.controller.PaymentController;
+import lk.ijse.gdse72.layerdovinplus.dao.custom.PaymentDAO;
+import lk.ijse.gdse72.layerdovinplus.dao.custom.impl.PaymentDAOImpl;
 
 public class BOFactory {
     private static BOFactory boFactory ;
@@ -10,7 +13,7 @@ public class BOFactory {
         return boFactory==null?boFactory=new BOFactory():boFactory;
     }
     public enum BOType {
-        USER, BATCH, STUDENT, TUTE, CONTACT,EMPLOYEE,ORDER,DELIVARY
+USER, BATCH, STUDENT, TUTE, CONTACT,EMPLOYEE,ORDER,DELIVARY,PAYMENT
     }
     public SuperBO getBo(BOType type) {
         switch (type) {
@@ -38,6 +41,10 @@ public class BOFactory {
 
                                 case DELIVARY:
                                     return new DelivaryBOImpl();
+
+                                    case PAYMENT:
+                                        return new PaymentBOImpl();
+
 
 
                 default:

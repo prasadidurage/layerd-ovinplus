@@ -1,0 +1,81 @@
+/* General Styles */
+.root {
+    -fx-background-color: #2e2e2e; /* Dark background color */
+    -fx-text-fill: white; /* White text color */
+}
+
+/* Button Styles */
+.button {
+    -fx-background-color: #3c3c3c; /* Dark button background */
+    -fx-text-fill: #e0e0e0; /* Light text color */
+    -fx-border-color: #555555; /* Darker border color */
+    -fx-border-width: 1px;
+    -fx-border-radius: 20px;
+}
+
+.button:hover {
+    -fx-background-color: #505050; /* Lighter button color on hover */
+    -fx-text-fill: #ffffff; /* Maintain text color */
+}
+
+/* VBox */
+.vbox {
+    -fx-background-color: #2b2b2b; /* Dark background */
+    -fx-border-radius: 10px;
+    -fx-border-color: #444444; /* Dark border */
+    -fx-border-width: 2px;
+}
+
+/* Label Styles */
+.label {
+    -fx-text-fill: white; /* White text color for labels */
+}
+
+#lblName, #lblDatenTime {
+    -fx-font-weight: bold;
+}
+
+/* AnchorPane */
+.anchor-pane {
+    -fx-background-color: #2e2e2e; /* Dark background */
+}
+
+/* ImageView */
+.image-view {
+    opacity: 0.7; /* Reduce opacity for background images */
+}
+
+/* HBox */
+.hbox {
+    -fx-background-color: #333333; /* Darker background for HBox */
+}
+
+/* Additional Styles for hover effects */
+.button:hover {
+    -fx-background-color: #595959;
+    -fx-border-color: #e6e6e6;
+    -fx-text-fill: #ffffff;
+}
+
+.button:pressed {
+    -fx-background-color: #4a4a4a;
+    -fx-border-color: #d5d5d5;
+}
+
+/* Special Styles for specific buttons */
+#btnUser, #btnContact, #btnStudent, #btnBatch, #btnTute, #btnOrder, #btnDelivery, #btnEmployee, #btnSetting, #btmPayment {
+    -fx-background-color: #3a3a3a;
+}
+
+#btnUser:hover, #btnContact:hover, #btnStudent:hover, #btnBatch:hover, #btnTute:hover, #btnOrder:hover, #btnDelivery:hover, #btnEmployee:hover, #btnSetting:hover, #btmPayment:hover {
+    -fx-background-color: #555555;
+}
+
+/* Apply custom font colors */
+.button {
+    -fx-text-fill: #d0d0d0;
+}
+
+.label {
+    -fx-text-fill: #dcdcdc; /* Light gray for labels */
+}

@@ -1,0 +1,178 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.Cursor?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane fx:id="mainPane" minHeight="444.0" minWidth="1066.0" prefHeight="731.0" prefWidth="1200.0" style="-fx-background-color: #FFFFFF;" xmlns="http://javafx.com/javafx/22" xmlns:fx="http://javafx.com/fxml/1" fx:controller="lk.ijse.gdse72.layerdovinplus.controller.DashBoardController">
+   <children>
+      <ImageView fitHeight="789.0" fitWidth="1386.0" layoutX="-45.0" layoutY="-50.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@../asset/dash.jpg " />
+         </image>
+      </ImageView>
+      <VBox fx:id="btnPayment" alignment="BASELINE_LEFT" layoutX="25.0" layoutY="85.0" prefHeight="589.0" prefWidth="222.0" spacing="20.0" style="-fx-border-radius: 00px 50px 0 0; -fx-border-color: #000000; -fx-background-color: #130f40; -fx-background-radius: 00px 50px 0 0; -fx-border-width: 5px;">
+         <children>
+            <Button fx:id="btnUser" alignment="TOP_LEFT" mnemonicParsing="false" onAction="#useOnAction" onMouseEntered="#playMouseEnterAnimation" onMouseExited="#playMouseExitAnimation" prefHeight="28.0" prefWidth="195.0" style="-fx-background-color: #FFFFF; -fx-border-color: #95afc0; -fx-border-width: 3px; -fx-border-radius: 50px; -fx-background-radius: 50px;" text="    User" textFill="#3c3939">
+               <font>
+                  <Font name="System Bold" size="13.0" />
+               </font>
+               <graphic>
+                  <ImageView fitHeight="26.0" fitWidth="23.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../icon/img.icons8.png" />
+                     </image>
+                  </ImageView>
+               </graphic>
+            </Button>
+            <Button fx:id="btnContact" alignment="TOP_LEFT" mnemonicParsing="false" onAction="#contactOnaction" onMouseEntered="#playMouseEnterAnimation" onMouseExited="#playMouseExitAnimation" prefHeight="28.0" prefWidth="195.0" style="-fx-background-color: #FFFFF; -fx-border-color: #95afc0; -fx-border-width: 3px; -fx-border-radius: 50px; -fx-background-radius: 50px;" text="    Contact" textFill="#3c3939">
+               <font>
+                  <Font name="System Bold" size="13.0" />
+               </font>
+               <graphic>
+                  <ImageView fitHeight="26.0" fitWidth="23.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../icon/call.png" />
+                     </image>
+                  </ImageView>
+               </graphic>
+            </Button>
+            <Button fx:id="btnStudent" alignment="TOP_LEFT" mnemonicParsing="false" onAction="#sudentOnAction" onMouseEntered="#playMouseEnterAnimation" onMouseExited="#playMouseExitAnimation" prefHeight="28.0" prefWidth="195.0" style="-fx-background-color: #FFFFF; -fx-border-color: #95afc0; -fx-border-width: 3px; -fx-border-radius: 50px; -fx-background-radius: 50px;" text="    Student" textFill="#3c3939">
+               <font>
+                  <Font name="System Bold" size="13.0" />
+               </font>
+               <graphic>
+                  <ImageView fitHeight="26.0" fitWidth="23.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../icon/icons8-student-24.png" />
+                     </image>
+                  </ImageView>
+               </graphic>
+            </Button>
+            <Button fx:id="btnBatch" alignment="TOP_LEFT" mnemonicParsing="false" onAction="#BatchOnAction" onMouseEntered="#playMouseEnterAnimation" onMouseExited="#playMouseExitAnimation" prefHeight="28.0" prefWidth="195.0" style="-fx-background-color: #FFFFF; -fx-border-color: #95afc0; -fx-border-width: 3px; -fx-border-radius: 50px; -fx-background-radius: 50px;" text="    Batch" textFill="#3c3939">
+               <font>
+                  <Font name="System Bold" size="13.0" />
+               </font>
+               <graphic>
+                  <ImageView fitHeight="26.0" fitWidth="23.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../icon/icons8-group-24.png" />
+                     </image>
+                  </ImageView>
+               </graphic>
+            </Button>
+            <Button fx:id="btnTute" alignment="TOP_LEFT" mnemonicParsing="false" onAction="#TuteOnAction" onMouseEntered="#playMouseEnterAnimation" onMouseExited="#playMouseExitAnimation" prefHeight="28.0" prefWidth="195.0" style="-fx-background-color: #FFFFF; -fx-border-color: #95afc0; -fx-border-width: 3px; -fx-border-radius: 50px; -fx-background-radius: 50px;" text="    Tutes" textFill="#3c3939">
+               <font>
+                  <Font name="System Bold" size="13.0" />
+               </font>
+               <graphic>
+                  <ImageView fitHeight="26.0" fitWidth="23.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../icon/icons8-book-30.png" />
+                     </image>
+                  </ImageView>
+               </graphic>
+            </Button>
+            <Button fx:id="btnOrder" alignment="TOP_LEFT" mnemonicParsing="false" onAction="#orderOnAction" onMouseEntered="#playMouseEnterAnimation" onMouseExited="#playMouseExitAnimation" prefHeight="28.0" prefWidth="195.0" style="-fx-background-color: #FFFFF; -fx-border-color: #95afc0; -fx-border-width: 3px; -fx-border-radius: 50px; -fx-background-radius: 50px;" text="    Order" textFill="#3c3939">
+               <font>
+                  <Font name="System Bold" size="13.0" />
+               </font>
+               <graphic>
+                  <ImageView fitHeight="26.0" fitWidth="23.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../icon/order.png" />
+                     </image>
+                  </ImageView>
+               </graphic>
+            </Button>
+            <Button fx:id="btnDelivery" alignment="TOP_LEFT" mnemonicParsing="false" onAction="#deliveryOnAction" onMouseEntered="#playMouseEnterAnimation" onMouseExited="#playMouseExitAnimation" prefHeight="28.0" prefWidth="195.0" style="-fx-background-color: #FFFFF; -fx-border-color: #95afc0; -fx-border-width: 3px; -fx-border-radius: 50px; -fx-background-radius: 50px;" text="    Delivery" textFill="#3c3939">
+               <font>
+                  <Font name="System Bold" size="13.0" />
+               </font>
+               <graphic>
+                  <ImageView fitHeight="26.0" fitWidth="23.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../icon/icons8-shipped-30.png" />
+                     </image>
+                  </ImageView>
+               </graphic>
+            </Button>
+            <Button fx:id="btnEmployee" alignment="TOP_LEFT" mnemonicParsing="false" onAction="#employeeOnAction" onMouseEntered="#playMouseEnterAnimation" onMouseExited="#playMouseExitAnimation" prefHeight="28.0" prefWidth="195.0" style="-fx-background-color: #FFFFF; -fx-border-color: #95afc0; -fx-border-width: 3px; -fx-border-radius: 50px; -fx-background-radius: 50px;" text="    Employee" textFill="#3c3939">
+               <font>
+                  <Font name="System Bold" size="13.0" />
+               </font>
+               <graphic>
+                  <ImageView fitHeight="26.0" fitWidth="23.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../icon/icons8-employee-50.png" />
+                     </image>
+                  </ImageView>
+               </graphic>
+            </Button>
+            <Button fx:id="btmPayment" alignment="TOP_LEFT" mnemonicParsing="false" onAction="#paymentOnAction" onMouseEntered="#playMouseEnterAnimation" onMouseExited="#playMouseExitAnimation" prefHeight="28.0" prefWidth="195.0" style="-fx-background-color: #FFFFF; -fx-border-color: #95afc0; -fx-border-width: 3px; -fx-border-radius: 50px; -fx-background-radius: 50px;" text="    Payment" textFill="#3c3939">
+               <font>
+                  <Font name="System Bold" size="13.0" />
+               </font>
+               <graphic>
+                  <ImageView fitHeight="26.0" fitWidth="23.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../icon/icons8-money-50.png" />
+                     </image>
+                  </ImageView>
+               </graphic>
+            </Button>
+            <Button fx:id="btnSetting" alignment="TOP_LEFT" mnemonicParsing="false" onAction="#settingOnAction" onMouseEntered="#playMouseEnterAnimation" onMouseExited="#playMouseExitAnimation" prefHeight="28.0" prefWidth="195.0" style="-fx-background-color: #FFFFF; -fx-border-color: #95afc0; -fx-border-width: 3px; -fx-border-radius: 50px; -fx-background-radius: 50px;" text="    Setting" textFill="#3c3939">
+               <font>
+                  <Font name="System Bold" size="13.0" />
+               </font>
+               <graphic>
+                  <ImageView fitHeight="26.0" fitWidth="23.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../icon/icons8-settings-30.png" />
+                     </image>
+                  </ImageView>
+               </graphic>
+            </Button>
+         </children>
+         <cursor>
+            <Cursor fx:constant="DEFAULT" />
+         </cursor>
+      </VBox>
+      <HBox layoutX="14.0" layoutY="14.0" prefHeight="48.0" prefWidth="677.0">
+         <children>
+            <Label alignment="CENTER" prefHeight="48.0" prefWidth="116.0" text="HELLO" textFill="#0d0d0d">
+               <font>
+                  <Font name="padmaa-Bold.1.1" size="20.0" />
+               </font></Label>
+            <Label fx:id="lblName" prefHeight="46.0" prefWidth="163.0" text="name">
+               <font>
+                  <Font name="padmaa-Bold.1.1" size="20.0" />
+               </font></Label>
+            <Label fx:id="lblDatenTime" contentDisplay="CENTER" prefHeight="45.0" prefWidth="370.0" textAlignment="CENTER">
+               <font>
+                  <Font name="System Bold" size="20.0" />
+               </font></Label>
+         </children>
+      </HBox>
+      <ImageView fx:id="imageLogin" fitHeight="58.0" fitWidth="51.0" layoutX="1072.0" layoutY="14.0" onMouseClicked="#loginOnMouseClick" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@../icon/icons8-login-page-78(1).png" />
+         </image>
+      </ImageView>
+      <AnchorPane fx:id="panelContact" layoutX="277.0" layoutY="96.0" prefHeight="563.0" prefWidth="923.0">
+         <children>
+            <ImageView fx:id="imagepane" fitHeight="502.0" fitWidth="769.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../asset/it-1.gif" />
+               </image>
+            </ImageView>
+         </children>
+      </AnchorPane>
+   </children>
+</AnchorPane>

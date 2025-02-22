@@ -20,4 +20,12 @@ public class OrderDTO {
     private ArrayList<OrderDetailsDTO> orderDetailsDTOS;
 
 
+    public OrderDTO(String orderId, Date orderDate, String studentId) {
+        this.orderId = orderId;
+        this.orderDate = orderDate;
+        this.studentId = studentId;
+
+    }
+
+
 }

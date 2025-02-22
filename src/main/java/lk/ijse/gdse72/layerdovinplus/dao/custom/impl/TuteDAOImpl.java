@@ -4,6 +4,7 @@ import lk.ijse.gdse72.layerdovinplus.dao.SQLUtil;
 import lk.ijse.gdse72.layerdovinplus.dao.custom.TuteDAO;
 import lk.ijse.gdse72.layerdovinplus.dto.OrderDetailsDTO;
 import lk.ijse.gdse72.layerdovinplus.entity.Batch;
+import lk.ijse.gdse72.layerdovinplus.entity.OrderDetail;
 import lk.ijse.gdse72.layerdovinplus.entity.Tute;
 
 import java.sql.ResultSet;
@@ -105,12 +106,17 @@ public class TuteDAOImpl implements TuteDAO {
     }
 
     @Override
-    public boolean reduceQty(OrderDetailsDTO orderDetailsDTO) throws SQLException {
+    public boolean reduceQty(OrderDetail orderDetail) throws SQLException {
         return SQLUtil.execute(
                 "update Tute set  tuteQty =  tuteQty - ? where tuteId = ?",
-                orderDetailsDTO.getQuantity(),
-                orderDetailsDTO.getTuteId()
+                orderDetail.getQuantity(),
+                orderDetail.getTuteId()
         );
+    }
+
+    @Override
+    public boolean updateBatch(Batch batch) {
+        return false;
     }
 }
 

@@ -3,7 +3,9 @@ package lk.ijse.gdse72.layerdovinplus.dao.custom.impl;
 import lk.ijse.gdse72.layerdovinplus.dao.SQLUtil;
 import lk.ijse.gdse72.layerdovinplus.dao.custom.DelivaryDAO;
 import lk.ijse.gdse72.layerdovinplus.dto.OrderDetailsDTO;
+import lk.ijse.gdse72.layerdovinplus.entity.Batch;
 import lk.ijse.gdse72.layerdovinplus.entity.Delivary;
+import lk.ijse.gdse72.layerdovinplus.entity.OrderDetail;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -104,7 +106,12 @@ public class DelivaryDAOImpl implements DelivaryDAO {
 
 
     @Override
-    public boolean reduceQty(OrderDetailsDTO orderDetailsDTO) throws SQLException {
+    public boolean reduceQty(OrderDetail orderDetail) throws SQLException {
+        return false;
+    }
+
+    @Override
+    public boolean updateBatch(Batch batch) throws SQLException {
         return false;
     }
 }

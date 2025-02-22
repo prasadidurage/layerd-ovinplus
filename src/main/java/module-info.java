@@ -4,7 +4,8 @@ module lk.ijse.gdse72.layerdovinplus {
     requires java.sql;
     requires static lombok;
     requires net.sf.jasperreports.core;
-   // requires mysql.connector.j;
+    requires mysql.connector.j;
+    // requires mysql.connector.j;
 
     // requires java.mail;
   //  requires net.sf.jasperreports.core;

@@ -6,6 +6,7 @@ import lk.ijse.gdse72.layerdovinplus.dto.OrderDTO;
 import lk.ijse.gdse72.layerdovinplus.dto.OrderDetailsDTO;
 import lk.ijse.gdse72.layerdovinplus.entity.Batch;
 import lk.ijse.gdse72.layerdovinplus.entity.Order;
+import lk.ijse.gdse72.layerdovinplus.entity.OrderDetail;
 
 import java.sql.Date;
 import java.sql.ResultSet;
@@ -29,7 +30,7 @@ public class OrderDAOImpl implements OrderDAO {
             String studentId = rst.getString(3);
 
             // Retrieve order details (items associated with the order)
-            ArrayList<OrderDetailsDTO> orderDetails = getOrderDetailsByOrderId(orderId);
+            ArrayList<OrderDetail> orderDetails = getOrderDetailsByOrderId(orderId);
 
             // Create and add the OrderDTO object to the list
             Order order = new Order(orderId, orderDate, studentId, orderDetails);
@@ -40,8 +41,8 @@ public class OrderDAOImpl implements OrderDAO {
 
     }
 
-    private ArrayList<OrderDetailsDTO> getOrderDetailsByOrderId(String orderId) throws SQLException {
-        ArrayList<OrderDetailsDTO> orderDetails = new ArrayList<>();
+    private ArrayList<OrderDetail> getOrderDetailsByOrderId(String orderId) throws SQLException {
+        ArrayList<OrderDetail> orderDetails = new ArrayList<>();
 
         // Query to get details for the specified order ID
         ResultSet detailsRst = SQLUtil.execute("SELECT * FROM orderdetail WHERE orderId = ?", orderId);
@@ -54,40 +55,45 @@ public class OrderDAOImpl implements OrderDAO {
             double unitPrice = detailsRst.getDouble("totalPrice");
 
             // Add the OrderDetailsDTO object to the list
-            orderDetails.add(new OrderDetailsDTO(orderCode,tutecode, quantity, unitPrice));
+            orderDetails.add(new OrderDetail(orderCode,tutecode, quantity, unitPrice));
         }
 
         return orderDetails;
     }
 
-    public ArrayList<OrderDTO> getAllOrders() throws SQLException {
-        // Execute the SQL query to fetch all orders
-        ResultSet rst = SQLUtil.execute("SELECT * FROM orders");
-
-        // Initialize the list to hold OrderDTO objects
-        ArrayList<OrderDTO> orderDTOS = new ArrayList<>();
-
-        // Iterate through the result set
-        while (rst.next()) {
-            // Retrieve order information
-            String orderId = rst.getString(1);
-            Date orderDate = rst.getDate(2);
-            String studentId = rst.getString(3);
-
-            // Retrieve order details (items associated with the order)
-            ArrayList<OrderDetailsDTO> orderDetails = getOrderDetailsByOrderId(orderId);
-
-            // Create and add the OrderDTO object to the list
-            OrderDTO orderDTO = new OrderDTO(orderId, orderDate, studentId, orderDetails);
-            orderDTOS.add(orderDTO);
-        }
-
-        return orderDTOS;
-    }
+//    public ArrayList<OrderDTO> getAllOrders() throws SQLException {
+//        // Execute the SQL query to fetch all orders
+//        ResultSet rst = SQLUtil.execute("SELECT * FROM orders");
+//
+//        // Initialize the list to hold OrderDTO objects
+//        ArrayList<OrderDTO> orderDTOS = new ArrayList<>();
+//
+//        // Iterate through the result set
+//        while (rst.next()) {
+//            // Retrieve order information
+//            String orderId = rst.getString(1);
+//            Date orderDate = rst.getDate(2);
+//            String studentId = rst.getString(3);
+//
+//            // Retrieve order details (items associated with the order)
+//            ArrayList<OrderDetail> orderDetails = getOrderDetailsByOrderId(orderId);
+//
+//            // Create and add the OrderDTO object to the list
+//            OrderDTO orderDTO = new OrderDTO(orderId, orderDate, studentId, orderDetails);
+//            orderDTOS.add(orderDTO);
+//        }
+//
+//        return orderDTOS;
+//    }
 
     @Override
     public boolean save(Order entity) throws SQLException {
-        return false;
+        return SQLUtil.execute(
+                "INSERT INTO orders VALUES (?,?,?)",
+                entity.getOrderId(),
+                entity.getOrderDate(),
+                entity.getStudentId()
+        );
     }
 
     @Override
@@ -142,7 +148,7 @@ public class OrderDAOImpl implements OrderDAO {
             Date orderDate = rst.getDate(2);
             String studentId = rst.getString(3);
 
-            ArrayList<OrderDetailsDTO> orderDetails = getOrderDetailsByOrderId(orderId);
+            ArrayList<OrderDetail> orderDetails = getOrderDetailsByOrderId(orderId);
 
             return new Order(orderId, orderDate, studentId, orderDetails);
         }
@@ -151,7 +157,12 @@ public class OrderDAOImpl implements OrderDAO {
     }
 
     @Override
-    public boolean reduceQty(OrderDetailsDTO orderDetailsDTO) throws SQLException {
+    public boolean reduceQty(OrderDetail orderDetail) throws SQLException {
+        return false;
+    }
+
+    @Override
+    public boolean updateBatch(Batch batch) {
         return false;
     }
 }

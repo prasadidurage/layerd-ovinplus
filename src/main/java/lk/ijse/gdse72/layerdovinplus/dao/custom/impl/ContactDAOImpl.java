@@ -3,7 +3,9 @@ package lk.ijse.gdse72.layerdovinplus.dao.custom.impl;
 import lk.ijse.gdse72.layerdovinplus.dao.SQLUtil;
 import lk.ijse.gdse72.layerdovinplus.dao.custom.ContactDAO;
 import lk.ijse.gdse72.layerdovinplus.dto.OrderDetailsDTO;
+import lk.ijse.gdse72.layerdovinplus.entity.Batch;
 import lk.ijse.gdse72.layerdovinplus.entity.Contact;
+import lk.ijse.gdse72.layerdovinplus.entity.OrderDetail;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -100,7 +102,12 @@ public class ContactDAOImpl implements ContactDAO {
     }
 
     @Override
-    public boolean reduceQty(OrderDetailsDTO orderDetailsDTO) throws SQLException {
+    public boolean reduceQty(OrderDetail orderDetail) throws SQLException {
+        return false;
+    }
+
+    @Override
+    public boolean updateBatch(Batch batch) {
         return false;
     }
 }

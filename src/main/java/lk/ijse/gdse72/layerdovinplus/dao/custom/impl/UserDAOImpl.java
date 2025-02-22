@@ -5,6 +5,7 @@ import lk.ijse.gdse72.layerdovinplus.dao.SQLUtil;
 import lk.ijse.gdse72.layerdovinplus.dto.OrderDetailsDTO;
 import lk.ijse.gdse72.layerdovinplus.dto.UserDTO;
 import lk.ijse.gdse72.layerdovinplus.entity.Batch;
+import lk.ijse.gdse72.layerdovinplus.entity.OrderDetail;
 import lk.ijse.gdse72.layerdovinplus.entity.User;
 
 import java.sql.ResultSet;
@@ -91,7 +92,12 @@ public class UserDAOImpl implements UserDAO {
     }
 
     @Override
-    public boolean reduceQty(OrderDetailsDTO orderDetailsDTO) throws SQLException {
+    public boolean reduceQty(OrderDetail orderDetail) throws SQLException {
+        return false;
+    }
+
+    @Override
+    public boolean updateBatch(Batch batch) throws SQLException {
         return false;
     }
 

@@ -3,6 +3,7 @@ package lk.ijse.gdse72.layerdovinplus.dao.custom.impl;
 import lk.ijse.gdse72.layerdovinplus.dao.SQLUtil;
 import lk.ijse.gdse72.layerdovinplus.dao.custom.OrderDetailDAO;
 import lk.ijse.gdse72.layerdovinplus.dto.OrderDetailsDTO;
+import lk.ijse.gdse72.layerdovinplus.entity.Batch;
 import lk.ijse.gdse72.layerdovinplus.entity.OrderDetail;
 
 import java.sql.SQLException;
@@ -51,7 +52,12 @@ public class OrderDetailDAOImpl implements OrderDetailDAO {
     }
 
     @Override
-    public boolean reduceQty(OrderDetailsDTO orderDetailsDTO) throws SQLException {
+    public boolean reduceQty(OrderDetail orderDetail) throws SQLException {
+        return false;
+    }
+
+    @Override
+    public boolean updateBatch(Batch batch) throws SQLException {
         return false;
     }
 

@@ -56,12 +56,7 @@ public class OrderBOImpl implements OrderBO {
             connection.setAutoCommit(false); // 1. Start transaction
 
             // 2. Save order details to orders table
-            boolean isOrderSaved = SQLUtil.execute(
-                    "INSERT INTO orders VALUES (?,?,?)",
-                    orderDTO.getOrderId(),
-                    orderDTO.getOrderDate(),
-                    orderDTO.getStudentId()
-            );
+            boolean isOrderSaved = orderDAO.save(new Order(orderDTO.getOrderId(),orderDTO.getOrderDate(),orderDTO.getStudentId()));
             System.out.println("Order Saved: " );
 
             if (!isOrderSaved) {
@@ -79,25 +74,23 @@ public class OrderBOImpl implements OrderBO {
                         orderDetailsDTO.getPrice()
 
                 );
-                System.out.println("Order Detail Saved: " );
 
                 boolean isOrderDetailsSaved = orderDetailDAO.save(orderDetail); // Save entity instead of DTO
                 if (!isOrderDetailsSaved) {
                     connection.rollback();
                     return false;
                 }
-                System.out.println("j");
 
 
 
                 // 4. Reduce item quantity
-                boolean isItemUpdated = tuteDAO.reduceQty(orderDetailsDTO);
+                boolean isItemUpdated = tuteDAO.reduceQty(orderDetail);
                 if (!isItemUpdated) {
                     connection.rollback();
                     return false;
                 }
             }
-            System.out.println("k");
+
 
             connection.commit(); // 5. Commit transaction if everything is successful
             return true;
@@ -145,7 +138,7 @@ public class OrderBOImpl implements OrderBO {
         ArrayList<OrderDTO> orderDTOArrayList = new ArrayList<>();
         ArrayList<Order> orders = orderDAO.search(searchText);
         for (Order order : orders) {
-            orderDTOArrayList.add(new OrderDTO(order.getOrderId(),order.getOrderDate(),order.getStudentId(),order.getOrderDetailsDTOS()));
+            orderDTOArrayList.add(new OrderDTO(order.getOrderId(),order.getOrderDate(),order.getStudentId()));
 
         }
         return orderDTOArrayList;
@@ -156,7 +149,7 @@ public class OrderBOImpl implements OrderBO {
         ArrayList<OrderDTO> orderDTOArrayList = new ArrayList<>();
         ArrayList<Order> orders = orderDAO.getAll();
         for (Order order : orders) {
-            orderDTOArrayList.add(new OrderDTO(order.getOrderId(),order.getOrderDate(),order.getStudentId(),order.getOrderDetailsDTOS()));
+            orderDTOArrayList.add(new OrderDTO(order.getOrderId(),order.getOrderDate(),order.getStudentId()));
 
         }
         return orderDTOArrayList;

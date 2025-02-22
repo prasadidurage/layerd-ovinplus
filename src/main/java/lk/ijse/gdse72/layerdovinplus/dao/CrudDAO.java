@@ -3,6 +3,7 @@ package lk.ijse.gdse72.layerdovinplus.dao;
 import lk.ijse.gdse72.layerdovinplus.dto.BatchDTO;
 import lk.ijse.gdse72.layerdovinplus.dto.OrderDetailsDTO;
 import lk.ijse.gdse72.layerdovinplus.entity.Batch;
+import lk.ijse.gdse72.layerdovinplus.entity.OrderDetail;
 import lk.ijse.gdse72.layerdovinplus.entity.User;
 
 import java.sql.SQLException;
@@ -16,5 +17,6 @@ public interface CrudDAO<T> extends SuperDAO {
     boolean delete(String Id) throws SQLException;
     ArrayList<T> search(String searchTerm) throws SQLException;
     T findById(String selectedId) throws SQLException;
-    boolean reduceQty(OrderDetailsDTO orderDetailsDTO) throws SQLException;
+    boolean reduceQty(OrderDetail orderDetails) throws SQLException;
+    boolean updateBatch(Batch batch) throws SQLException;
 }

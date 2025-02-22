@@ -2,9 +2,8 @@ package lk.ijse.gdse72.layerdovinplus.dao.custom.impl;
 
 import lk.ijse.gdse72.layerdovinplus.dao.SQLUtil;
 import lk.ijse.gdse72.layerdovinplus.dao.custom.BatchDAO;
-import lk.ijse.gdse72.layerdovinplus.dto.OrderDetailsDTO;
 import lk.ijse.gdse72.layerdovinplus.entity.Batch;
-import lk.ijse.gdse72.layerdovinplus.entity.Contact;
+import lk.ijse.gdse72.layerdovinplus.entity.OrderDetail;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -13,7 +12,7 @@ import java.util.ArrayList;
 public class BatchDAOImpl implements BatchDAO {
     @Override
     public ArrayList<Batch> getAll() throws SQLException {
-        ResultSet rst = SQLUtil.execute("select * from Batch");
+        ResultSet rst = SQLUtil.execute("select * from batch");
 
         ArrayList<Batch> batchArrayList = new ArrayList<>();
 
@@ -32,7 +31,7 @@ public class BatchDAOImpl implements BatchDAO {
     @Override
     public boolean save(Batch entity) throws SQLException {
         return SQLUtil.execute(
-                "insert into Batch values (?,?,?)",
+                "insert into batch values (?,?,?)",
                 entity.getBatchID(),
                 entity.getBatchName(),
                 entity.getStudentCount()
@@ -42,7 +41,7 @@ public class BatchDAOImpl implements BatchDAO {
     @Override
     public boolean update(Batch entity) throws SQLException {
         return SQLUtil.execute(
-                "update Batch set BatchName=?, Studentcount=? where BatchId=?",
+                "update batch set BatchName=?, Studentcount=? where BatchId=?",
                 entity.getBatchName(),
                 entity.getStudentCount(),
                 entity.getBatchID()
@@ -52,7 +51,7 @@ public class BatchDAOImpl implements BatchDAO {
 
     @Override
     public String getNextId() throws SQLException, ClassNotFoundException {
-        ResultSet rst = SQLUtil.execute("select BatchId from Batch order by BatchId  desc limit 1");
+        ResultSet rst = SQLUtil.execute("select BatchId from batch order by BatchId  desc limit 1");
 
         if (rst.next()) {
             String lastId = rst.getString(1);
@@ -67,7 +66,7 @@ public class BatchDAOImpl implements BatchDAO {
 
     @Override
     public boolean delete(String BatchId) throws SQLException {
-        return SQLUtil.execute("delete from Batch where BatchId=?", BatchId);
+        return SQLUtil.execute("delete from batch where BatchId=?", BatchId);
     }
 
     @Override
@@ -75,7 +74,7 @@ public class BatchDAOImpl implements BatchDAO {
         ArrayList<Batch> batchArrayList = new ArrayList<>();
 
         // SQL query to find batches by ID or Name
-        String query = "SELECT * FROM Batch WHERE BatchId LIKE ? OR BatchName LIKE ?";
+        String query = "SELECT * FROM batch WHERE BatchId LIKE ? OR BatchName LIKE ?";
 
         ResultSet rst = SQLUtil.execute(query, "%" + searchTerm + "%", "%" + searchTerm + "%");
 
@@ -93,7 +92,7 @@ public class BatchDAOImpl implements BatchDAO {
 
     @Override
     public Batch findById(String selectedBatchId) throws SQLException {
-        ResultSet rst = SQLUtil.execute("SELECT * FROM Batch WHERE BatchId=?", selectedBatchId);
+        ResultSet rst = SQLUtil.execute("SELECT * FROM batch WHERE BatchId=?", selectedBatchId);
 
         if (rst.next()) {
             return new Batch(
@@ -107,7 +106,23 @@ public class BatchDAOImpl implements BatchDAO {
     }
 
     @Override
-    public boolean reduceQty(OrderDetailsDTO orderDetailsDTO) throws SQLException {
+    public boolean reduceQty(OrderDetail orderDetail) throws SQLException {
         return false;
+    }
+
+    @Override
+    public boolean updateBatch(Batch batch) throws SQLException {
+        return SQLUtil.execute("UPDATE batch SET StudentCount = StudentCount + 1 WHERE BatchId = ?",
+                batch.getBatchID()
+
+
+        );
+    }
+
+    @Override
+    public boolean reduceStudentCount(String batchId) throws SQLException {
+        return SQLUtil.execute(
+                "UPDATE batch SET StudentCount = StudentCount - 1 WHERE BatchId = ?", batchId
+        );
     }
 }

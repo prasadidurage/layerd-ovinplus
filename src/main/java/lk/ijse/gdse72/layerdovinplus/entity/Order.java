@@ -16,12 +16,12 @@ public class Order {
     private Date orderDate;
     private String studentId;
 
-    private ArrayList<OrderDetailsDTO> orderDetailsDTOS;
+    private ArrayList<OrderDetail> orderDetails;
 
     public Order(String orderId, Date orderDate, String studentId) {
         this.orderId = orderId;
         this.orderDate = orderDate;
         this.studentId = studentId;
-        this.orderDetailsDTOS = new ArrayList<>(); // Initialize empty list
+        this.orderDetails = new ArrayList<>(); // Initialize empty list
     }
 }
